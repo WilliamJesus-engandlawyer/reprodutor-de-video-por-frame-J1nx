@@ -2,7 +2,7 @@ import streamlit as st
 import cv2
 from PIL import Image
 
-st.title("Reprodutor de Vídeo por Frames com Anotações. GET JINX")
+st.title("Reprodutor de Vídeo por Frames com Anotações.")
 
 # Upload do vídeo
 video_file = st.file_uploader("Escolha um vídeo", type=["mp4", "avi", "mov"])
