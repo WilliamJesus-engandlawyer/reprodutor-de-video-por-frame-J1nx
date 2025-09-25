@@ -30,8 +30,3 @@ O nome **Jnx** foi escolhido unicamente por gosto pessoal, inspirado na personag
 Não possui relação direta com funcionalidades do projeto, mas serve como uma marca pessoal para o código.
 
 ---
-
-
-
-git clone https://github.com/seu_usuario/jnx.git
-cd jnx
