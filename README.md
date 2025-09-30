@@ -62,3 +62,7 @@ A aplicação está disponível em:
 ---
 
 👉 Em resumo, este sistema combina **Streamlit + OpenCV + FFmpeg + Pandas + ReportLab** para oferecer uma ferramenta completa de **revisão de vídeo**, com foco em **anotações quadro a quadro e geração de relatórios automatizados**.
+
+# O nome do projeto, é inpirado na personagem JINX, unicamente, porque gosto da personagem
+![gostodela](https://images7.alphacoders.com/138/thumb-1920-1383989.png)
+
