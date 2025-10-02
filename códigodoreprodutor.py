@@ -9,6 +9,9 @@ import io
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import ImageReader
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image as RLImage, PageBreak
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY
 
 st.title("Reprodutor de Vídeo por Frames com Anotações e Relatório (CSV + PDF)")
 
@@ -161,57 +164,79 @@ if uploaded is not None:
                 mime="text/csv"
             )
 
-            # --- Exportar PDF ---
-            pdf_fd, pdf_path = tempfile.mkstemp(suffix=".pdf")
-            os.close(pdf_fd)
-            c = canvas.Canvas(pdf_path, pagesize=letter)
-            width, height = letter
-            c.setFont("Helvetica", 12)
-            y_position = height - 50
+             # --- Exportar PDF ---
+             pdf_fd, pdf_path = tempfile.mkstemp(suffix=".pdf")
+             os.close(pdf_fd)
+             
+             # Configurar estilos
+             styles = getSampleStyleSheet()
+             title_style = ParagraphStyle(
+                 "title",
+                 parent=styles["Heading1"],
+                 alignment=TA_CENTER,
+                 fontSize=16,
+                 spaceAfter=20
+             )
+             frame_style = ParagraphStyle(
+                 "frame",
+                 parent=styles["Normal"],
+                 alignment=TA_JUSTIFY,
+                 fontSize=12,
+                 leading=16,
+                 spaceAfter=15
+             )
+             comment_style = ParagraphStyle(
+                 "comment",
+                 parent=styles["Normal"],
+                 alignment=TA_CENTER,
+                 fontSize=12,
+                 leading=14,
+                 spaceBefore=20
+             )
+             
+             # Criar documento
+             doc = SimpleDocTemplate(pdf_path, pagesize=letter, rightMargin=40, leftMargin=40, topMargin=40, bottomMargin=40)
+             elements = []
+             
+             # Título
+             elements.append(Paragraph("Relatório de Anotações por Frame", title_style))
+             elements.append(Spacer(1, 12))
+             
+             # Inserir frames + observações
+             for f, n in sorted(st.session_state.annotations.items()):
+                 # Miniatura do frame
+                 cap.set(cv2.CAP_PROP_POS_FRAMES, f)
+                 ret, frame_img = cap.read()
+                 if ret:
+                     frame_img = cv2.cvtColor(frame_img, cv2.COLOR_BGR2RGB)
+                     pil_img = Image.fromarray(frame_img)
+                     pil_img.thumbnail((200, 200))
+                     img_buf = io.BytesIO()
+                     pil_img.save(img_buf, format="JPEG")
+                     img_buf.seek(0)
+                     elements.append(RLImage(img_buf, width=150, height=150))
+             
+                 # Texto formatado
+                 elements.append(Paragraph(f"<b>Frame {f}</b>: {n}", frame_style))
+             
+             # Comentário global
+             elements.append(PageBreak())
+             elements.append(Paragraph("Comentário Global", title_style))
+             elements.append(Paragraph(st.session_state.global_comment, comment_style))
+             
+             # Montar PDF
+             doc.build(elements)
+             
+             # Baixar PDF
+             with open(pdf_path, "rb") as f:
+                 pdf_bytes = f.read()
+             st.download_button(
+                 label="📥 Baixar relatório PDF",
+                 data=pdf_bytes,
+                 file_name="relatorio_frames.pdf",
+                 mime="application/pdf"
+             )
 
-            c.drawString(50, y_position, "Relatório de Anotações por Frame")
-            y_position -= 30
-
-            for f, n in sorted(st.session_state.annotations.items()):
-                # colocar frame como miniatura
-                cap.set(cv2.CAP_PROP_POS_FRAMES, f)
-                ret, frame_img = cap.read()
-                if ret:
-                    frame_img = cv2.cvtColor(frame_img, cv2.COLOR_BGR2RGB)
-                    pil_img = Image.fromarray(frame_img)
-                    pil_img.thumbnail((150, 150))
-                    img_buf = io.BytesIO()
-                    pil_img.save(img_buf, format="JPEG")
-                    img_buf.seek(0)
-                    c.drawImage(ImageReader(img_buf), 50, y_position-150)
-                c.drawString(220, y_position-10, f"Frame {f}: {n}")
-                y_position -= 170
-                if y_position < 100:
-                    c.showPage()
-                    y_position = height - 50
-
-            # Comentário global
-            c.showPage()
-            c.drawString(50, height - 50, "Comentário Global:")
-            text = st.session_state.global_comment
-            text_lines = text.split("\n")
-            y = height - 80
-            for line in text_lines:
-                c.drawString(50, y, line)
-                y -= 20
-
-            c.save()
-
-            with open(pdf_path, "rb") as f:
-                pdf_bytes = f.read()
-            st.download_button(
-                label="📥 Baixar relatório PDF",
-                data=pdf_bytes,
-                file_name="relatorio_frames.pdf",
-                mime="application/pdf"
-            )
-
-        cap.release()
 
 
 
