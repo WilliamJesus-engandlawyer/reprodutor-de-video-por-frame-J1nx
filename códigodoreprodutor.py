@@ -198,10 +198,25 @@ if uploaded is not None:
             doc = SimpleDocTemplate(pdf_path, pagesize=letter, rightMargin=40, leftMargin=40, topMargin=40, bottomMargin=40)
             elements = []
              
-             # Título
+            # Título
             elements.append(Paragraph("Relatório de Anotações por Frame", title_style))
+            
+            # Texto explicativo
+            intro_text = """
+            Este relatório foi gerado automaticamente por uma aplicação interativa desenvolvida em Python
+            utilizando a biblioteca <b>Streamlit</b>.  
+            
+            A ferramenta permite que o usuário visualize um vídeo quadro a quadro (frames), faça observações
+            específicas sobre cada trecho e registre comentários globais.  
+            
+            O objetivo é fornecer uma análise detalhada do desempenho de modelos de visão computacional ou
+            qualquer outro aspecto que se queira avaliar em vídeos, garantindo <i>transparência</i>,
+            <i>organização</i> e <i>rastreabilidade</i> das anotações realizadas.
+            """
+            
+            elements.append(Paragraph(intro_text, frame_style))
             elements.append(Spacer(1, 12))
-             
+
              # Inserir frames + observações
             for f, n in sorted(st.session_state.annotations.items()):
                  # Miniatura do frame
