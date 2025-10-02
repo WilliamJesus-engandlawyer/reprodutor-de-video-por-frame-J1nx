@@ -165,19 +165,19 @@ if uploaded is not None:
             )
 
              # --- Exportar PDF ---
-             pdf_fd, pdf_path = tempfile.mkstemp(suffix=".pdf")
-             os.close(pdf_fd)
+            pdf_fd, pdf_path = tempfile.mkstemp(suffix=".pdf")
+            os.close(pdf_fd)
              
              # Configurar estilos
-             styles = getSampleStyleSheet()
-             title_style = ParagraphStyle(
+            styles = getSampleStyleSheet()
+            title_style = ParagraphStyle(
                  "title",
                  parent=styles["Heading1"],
                  alignment=TA_CENTER,
                  fontSize=16,
                  spaceAfter=20
              )
-             frame_style = ParagraphStyle(
+            frame_style = ParagraphStyle(
                  "frame",
                  parent=styles["Normal"],
                  alignment=TA_JUSTIFY,
@@ -185,7 +185,7 @@ if uploaded is not None:
                  leading=16,
                  spaceAfter=15
              )
-             comment_style = ParagraphStyle(
+            comment_style = ParagraphStyle(
                  "comment",
                  parent=styles["Normal"],
                  alignment=TA_CENTER,
@@ -195,15 +195,15 @@ if uploaded is not None:
              )
              
              # Criar documento
-             doc = SimpleDocTemplate(pdf_path, pagesize=letter, rightMargin=40, leftMargin=40, topMargin=40, bottomMargin=40)
-             elements = []
+            doc = SimpleDocTemplate(pdf_path, pagesize=letter, rightMargin=40, leftMargin=40, topMargin=40, bottomMargin=40)
+            elements = []
              
              # Título
-             elements.append(Paragraph("Relatório de Anotações por Frame", title_style))
-             elements.append(Spacer(1, 12))
+            elements.append(Paragraph("Relatório de Anotações por Frame", title_style))
+            elements.append(Spacer(1, 12))
              
              # Inserir frames + observações
-             for f, n in sorted(st.session_state.annotations.items()):
+            for f, n in sorted(st.session_state.annotations.items()):
                  # Miniatura do frame
                  cap.set(cv2.CAP_PROP_POS_FRAMES, f)
                  ret, frame_img = cap.read()
@@ -220,22 +220,22 @@ if uploaded is not None:
                  elements.append(Paragraph(f"<b>Frame {f}</b>: {n}", frame_style))
              
              # Comentário global
-             elements.append(PageBreak())
-             elements.append(Paragraph("Comentário Global", title_style))
-             elements.append(Paragraph(st.session_state.global_comment, comment_style))
-             
-             # Montar PDF
-             doc.build(elements)
-             
-             # Baixar PDF
-             with open(pdf_path, "rb") as f:
-                 pdf_bytes = f.read()
-             st.download_button(
-                 label="📥 Baixar relatório PDF",
-                 data=pdf_bytes,
-                 file_name="relatorio_frames.pdf",
-                 mime="application/pdf"
-             )
+            elements.append(PageBreak())
+            elements.append(Paragraph("Comentário Global", title_style))
+            elements.append(Paragraph(st.session_state.global_comment, comment_style))
+            
+            # Montar PDF
+            doc.build(elements)
+            
+            # Baixar PDF
+            with open(pdf_path, "rb") as f:
+                pdf_bytes = f.read()
+            st.download_button(
+                label="📥 Baixar relatório PDF",
+                data=pdf_bytes,
+                file_name="relatorio_frames.pdf",
+                mime="application/pdf"
+            )
 
 
 
