@@ -73,7 +73,7 @@ pip install opencv-python pillow customtkinter pandas reportlab
 ### 2. Execute a aplicação
 
 ```bash
-python app.py
+python j1nx.py
 ```
 
 ### 3. Utilize a interface
