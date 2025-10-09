@@ -1,67 +1,114 @@
-# 🎥 Reprodutor de Vídeo por Frames com Anotações e Relatórios
-
-Este projeto é uma aplicação em **Streamlit** que permite analisar vídeos quadro a quadro (frames), adicionar anotações em cada frame e gerar relatórios em **CSV** e **PDF**.  
-É útil para revisar vídeos de forma detalhada, registrando observações específicas em determinados momentos. Criei em especifico para fazer relatórios de videos de visão computacional.
-
-## 🚀 Deploy Cloud
-
-A aplicação está disponível em:  
-[Deploy cloud da aplicação](https://reapputor-de-video-por-frame-j1nx-g78r3edmttuqjjk62smpkb.streamlit.app/)
-
 
 ---
 
-## 🚀 Funcionamento
+# 🎞️ Anotador de Vídeo por Frames com Relatórios (Versão Desktop)
 
-1. **Upload do Vídeo**  
-   - O usuário envia um arquivo de vídeo (`.mp4`, `.avi`, `.mov`).  
-   - O vídeo é salvo temporariamente para processamento.
+Este projeto é uma **aplicação desktop** desenvolvida com **Python**, utilizando **CustomTkinter** e **OpenCV** para permitir a **análise quadro a quadro de vídeos**, com **anotações personalizadas** e **geração automática de relatórios** em **CSV** e **PDF**.
 
-2. **Leitura e Contagem de Frames**  
-   - O código utiliza **OpenCV (cv2)** para abrir o vídeo e identificar a quantidade total de frames.  
-   - Se a contagem de frames falhar, o sistema tenta corrigir o arquivo com **FFmpeg**.  
-   - Caso ainda não funcione, é feita uma leitura frame a frame.
-
-3. **Navegação entre Frames**  
-   - Seleção manual de frame por **slider**.  
-   - Botões para avançar ou retroceder frames.  
-   - Exibição do frame selecionado na tela.
-
-4. **Anotações por Frame**  
-   - O usuário pode escrever observações específicas para cada frame.  
-   - As anotações ficam salvas na **session_state** do Streamlit.
-
-5. **Comentário Global**  
-   - Além das anotações por frame, o usuário pode inserir um comentário geral sobre o vídeo ou desempenho analisado.
-
-6. **Visualização das Anotações**  
-   - As observações são exibidas em uma tabela organizada (**Pandas DataFrame**).
-
-7. **Exportação de Relatórios**  
-   - **CSV**: planilha com frames anotados + comentário global.  
-   - **PDF**: relatório com:
-     - Miniaturas dos frames anotados.  
-     - Observações registradas.  
-     - Comentário global em página separada.  
-   - O PDF é gerado com **ReportLab**.
-
-8. **Download**  
-   - Relatórios em CSV e PDF podem ser baixados diretamente pela interface.
+Ideal para **análises de visão computacional**, revisão de vídeos e criação de **relatórios precisos por frame**.
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## 🖥️ Principais Recursos
 
-- [Streamlit](https://streamlit.io/) – Interface web interativa  
-- [OpenCV](https://opencv.org/) – Leitura e manipulação de vídeos  
-- [FFmpeg](https://ffmpeg.org/) – Correção de metadados de vídeos  
-- [Pandas](https://pandas.pydata.org/) – Estruturação das anotações em tabelas  
-- [ReportLab](https://www.reportlab.com/) – Geração de relatórios em PDF  
-- [Pillow (PIL)](https://pillow.readthedocs.io/) – Processamento de imagens  
+1. **Carregamento de Vídeos**
+
+   * Suporte a arquivos `.mp4`, `.avi` e `.mov`.
+   * Exibe o vídeo diretamente na interface.
+   * Mostra o número total de frames e o frame atual durante a navegação.
+
+2. **Navegação entre Frames**
+
+   * Controle intuitivo via **slider** e botões **Anterior / Próximo**.
+   * Atualização em tempo real do frame exibido.
+   * Exibição clara: `Você está no frame X de Y`.
+
+3. **Anotações por Frame**
+
+   * Campo de texto para observações individuais por frame.
+   * Salvamento automático ao alternar entre frames.
+   * Botão de salvamento manual para controle extra.
+
+4. **Comentário Global**
+
+   * Espaço dedicado para observações gerais sobre o vídeo.
+
+5. **Exportação de Relatórios**
+
+   * **CSV**: planilha com frames anotados + comentário global.
+   * **PDF**: relatório visual contendo:
+
+     * Miniaturas dos frames anotados.
+     * Anotações associadas.
+     * Comentário global em página separada.
+   * PDFs são gerados com **ReportLab**, utilizando formatação elegante.
+
+6. **Interface Moderna**
+
+   * Construída com **CustomTkinter**, com **modo escuro** e botões estilizados.
+   * Compatível com **Windows, Linux e macOS**.
 
 ---
 
-👉 Em resumo, este sistema combina **Streamlit + OpenCV + FFmpeg + Pandas + ReportLab** para oferecer uma ferramenta completa de **revisão de vídeo**, com foco em **anotações quadro a quadro e geração de relatórios automatizados**.
+## 🧩 Tecnologias Utilizadas
+
+| Tecnologia                                                      | Função                                            |
+| --------------------------------------------------------------- | ------------------------------------------------- |
+| [CustomTkinter](https://github.com/TomSchimansky/CustomTkinter) | Interface gráfica moderna e responsiva            |
+| [OpenCV](https://opencv.org/)                                   | Leitura e manipulação de vídeos                   |
+| [Pillow (PIL)](https://pillow.readthedocs.io/)                  | Exibição e processamento de frames                |
+| [Pandas](https://pandas.pydata.org/)                            | Estruturação e exportação de anotações em CSV     |
+| [ReportLab](https://www.reportlab.com/)                         | Geração de relatórios PDF com miniaturas e textos |
+
+---
+
+## ⚙️ Como Usar
+
+### 1. Instale as dependências
+
+```bash
+pip install opencv-python pillow customtkinter pandas reportlab
+```
+
+### 2. Execute a aplicação
+
+```bash
+python app.py
+```
+
+### 3. Utilize a interface
+
+1. Clique em **📂 Abrir vídeo** para carregar o arquivo.
+2. Use **⬅️ / ➡️** ou o **slider** para navegar entre frames.
+3. Escreva anotações por frame e um comentário global (opcional).
+4. Exporte seu relatório em **CSV** ou **PDF** diretamente pela interface.
+
+---
+
+## 📄 Geração de Relatórios
+
+Os relatórios são criados automaticamente com base nas anotações realizadas:
+
+* **CSV**: formato estruturado para análise tabular.
+* **PDF**: documento visual com miniaturas e comentários, ideal para apresentação ou documentação técnica.
+
+---
+
+## 🧠 Sobre a Versão Streamlit (anterior)
+
+Uma versão anterior deste projeto foi desenvolvida em **Streamlit** e continua disponível no repositório para referência:
+🔗 [Versão Web (Streamlit Cloud)](https://reapputor-de-video-por-frame-j1nx-g78r3edmttuqjjk62smpkb.streamlit.app/)
+
+Essa versão implementa as mesmas funcionalidades em ambiente web, mas a versão **atual (Tkinter)** é **autônoma, mais leve e voltada para uso local**.
+
+---
+
+## 📌 Resumo
+
+> O **Anotador de Vídeo por Frames** é uma ferramenta completa para quem precisa revisar vídeos quadro a quadro, registrar observações detalhadas e gerar relatórios profissionais de forma prática — tudo em uma interface moderna e intuitiva.
+
+---
+
 
 # O nome do projeto, é inpirado na personagem JINX, unicamente, porque gosto da personagem
 ![gostodela](https://images7.alphacoders.com/138/thumb-1920-1383989.png)
